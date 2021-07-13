@@ -1,6 +1,19 @@
 version: "3"
 # 管理的服务
 services:
+  nginx-service:
+    restart: always
+    image: nginx
+    container_name: nginx-service
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/log:/var/log/nginx
+      - ../../../../chatbot:/chatbot
+
   redis-service:
     container_name: redis-service
     # 指定镜像
@@ -10,12 +23,11 @@ services:
       - 6379:6379
     volumes:
       # 目录映射
-#      - "${REDIS_DIR}/conf:/usr/local/etc/redis"
       - "${REDIS_DIR}/conf/redis.conf:/usr/local/etc/redis/redis.conf"
       - "${REDIS_DIR}/data:/data"
     environment:
       - TZ=Asia/Shanghai
-      - REDIS_PASSWORD=123456
+      - REDIS_PASSWORD=${REDIS_ROOT_PASSWORD}
     command:
       # 执行的命令
       redis-server /usr/local/etc/redis/redis.conf

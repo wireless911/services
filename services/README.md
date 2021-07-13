@@ -18,3 +18,8 @@ docker-compose -f docker-compose-services.yml down
 
 #### tensorflow2 环境
 
+
+### redis.conf 准备文件
+```
+curl -O http://download.redis.io/redis-stable/redis.conf
+```
